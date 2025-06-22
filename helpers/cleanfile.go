@@ -75,6 +75,7 @@ func CleanLine(input string) []string {
 					if end+1 <= len(input) && end >= i+6 && input[i:i+6] == "(low, " && AreDigits(input[i+6:end]) {
 						out = append(out, input[i:end+1])
 						isflag[input[i:end+1]] = Flag{true, "(low, n)", input[i+6 : end]}
+
 						i = end
 						continue
 					}
@@ -83,14 +84,14 @@ func CleanLine(input string) []string {
 			out = append(out, string(input[i]))
 		}
 	}
-
-	for i := 0; i < len(out)-1; i++ {
-		if out[i] == " " && len(out[i+1]) > 0 && len(out[i+1]) == 1 && IsPunc(out[i+1][0]) {
-			out[i], out[i+1] = out[i+1], out[i]
-			i++
+	/*
+		for i := 0; i < len(out)-1; i++ {
+			if out[i] == " " && len(out[i+1]) > 0 && len(out[i+1]) == 1 && IsPunc(out[i+1][0]) {
+				out[i], out[i+1] = out[i+1], out[i]
+				i++
+			}
 		}
-	}
-
+	*/
 	// clean strings
 	output := []string{}
 	temp := ""
@@ -120,8 +121,17 @@ func CleanLine(input string) []string {
 }
 
 func AreDigits(s string) bool {
-	for _, d := range s {
-		if d < '0' || d > '9' || !(s[0] == '+' || s[0] == '-' || s[0]>= '0' && s[0]<='9') {
+	if len(s) == 0 {
+		return false
+	}
+	if s[0] == '+' || s[0] == '-' {
+		s = s[1:]
+		if len(s) == 0 {
+			return false
+		}
+	}
+	for i := 0; i < len(s); i++ {
+		if s[i] < '0' || s[i] > '9' {
 			return false
 		}
 	}

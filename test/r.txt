@@ -1,4 +1,1 @@
-(up) f ',  c'  ana (up)()(cap, 04546)
-plus(up, 2)(cap, 6) c'EST CA (low, +0001)
-
-4 ';  vf 1:  (cap)
+(up C,1)  
