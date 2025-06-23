@@ -12,7 +12,7 @@ func Solve(input string) string {
 	lines := strings.Split(input, "\n")
 	for _, line := range lines {
 
-		// clean line 
+		// clean line
 		l := helpers.CleanLine(line)
 
 		// handling flags :
@@ -25,8 +25,7 @@ func Solve(input string) string {
 		h = helpers.Punctuations2(h)
 
 		// quotes
-		
-
+		h = helpers.Quotes(h)
 
 		output = append(output, h)
 

@@ -1,3 +1,8 @@
-😍; 🤩;;?. 😘;     😗 fds, fs, F? fs
+😍; 🤩;;?. 😘;     😗 Fds, fs, F? fs 
 
-' ' '  '''zr' ' ' i 'd'' 'zr'
+wanna make this:
+'' ''''zr'' 'i'd'' 'zr'
+as this:
+'' ''''zr'' 'i'd'' 'zr'
+want to make every two '' with itch other
+dfs
