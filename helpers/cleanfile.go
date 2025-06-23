@@ -2,6 +2,7 @@ package helpers
 
 import (
 	"strings"
+	"unicode/utf8"
 )
 
 type Flag struct {
@@ -16,30 +17,31 @@ func CleanLine(input string) []string {
 	out := []string{}
 
 	// detect flags
-	for i := 0; i < len(input); i++ {
+	for i := 0; i < len(input); {
 		switch {
 		case i+4 <= len(input) && input[i:i+4] == "(up)":
 			out = append(out, "(up)")
 			isflag["(up)"] = Flag{true, "(up)", ""}
-			i += 3
+			i += 4
 		case i+5 <= len(input) && input[i:i+5] == "(low)":
 			out = append(out, "(low)")
 			isflag["(low)"] = Flag{true, "(low)", ""}
-			i += 4
+			i += 5
 		case i+5 <= len(input) && input[i:i+5] == "(cap)":
 			out = append(out, "(cap)")
 			isflag["(cap)"] = Flag{true, "(cap)", ""}
-			i += 4
+			i += 5
 		case i+5 <= len(input) && input[i:i+5] == "(bin)":
 			out = append(out, "(bin)")
 			isflag["(bin)"] = Flag{true, "(bin)", ""}
-			i += 4
+			i += 5
 		case i+5 <= len(input) && input[i:i+5] == "(hex)":
 			out = append(out, "(hex)")
 			isflag["(hex)"] = Flag{true, "(hex)", ""}
-			i += 4
-		case IsPunc(input[i]):
+			i += 5
+		case IsPunc(rune(input[i])):
 			out = append(out, string(input[i]))
+			i++
 		default:
 			if i+5 <= len(input) {
 				up := input[i+5:]
@@ -49,7 +51,7 @@ func CleanLine(input string) []string {
 					if end+1 <= len(input) && end >= i+5 && input[i:i+5] == "(up, " && AreDigits(input[i+5:end]) {
 						out = append(out, input[i:end+1])
 						isflag[input[i:end+1]] = Flag{true, "(up, n)", input[i+5 : end]}
-						i = end
+						i = end + 1
 						continue
 					}
 				}
@@ -62,7 +64,7 @@ func CleanLine(input string) []string {
 					if end+1 <= len(input) && end >= i+6 && input[i:i+6] == "(cap, " && AreDigits(input[i+6:end]) {
 						out = append(out, input[i:end+1])
 						isflag[input[i:end+1]] = Flag{true, "(cap, n)", input[i+6 : end]}
-						i = end
+						i = end + 1
 						continue
 					}
 				}
@@ -76,22 +78,17 @@ func CleanLine(input string) []string {
 						out = append(out, input[i:end+1])
 						isflag[input[i:end+1]] = Flag{true, "(low, n)", input[i+6 : end]}
 
-						i = end
+						i = end + 1
 						continue
 					}
 				}
 			}
-			out = append(out, string(input[i]))
+			r, size := utf8.DecodeRuneInString(input[i:])
+			out = append(out, string(r))
+			i += size
 		}
 	}
-	/*
-		for i := 0; i < len(out)-1; i++ {
-			if out[i] == " " && len(out[i+1]) > 0 && len(out[i+1]) == 1 && IsPunc(out[i+1][0]) {
-				out[i], out[i+1] = out[i+1], out[i]
-				i++
-			}
-		}
-	*/
+
 	// clean strings
 	output := []string{}
 	temp := ""
@@ -138,6 +135,6 @@ func AreDigits(s string) bool {
 	return true
 }
 
-func IsPunc(s byte) bool {
+func IsPunc(s rune) bool {
 	return (s == '.' || s == ',' || s == '!' || s == '?' || s == ':' || s == ';')
 }
