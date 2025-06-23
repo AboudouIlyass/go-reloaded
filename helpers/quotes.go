@@ -1,10 +1,14 @@
 package helpers
 
+import (
+	"fmt"
+)
+
 func Quotes(s string) string {
 	input := []rune(s)
 	open := 0
 	finished := false
-
+	fmt.Println(s)
 	for !finished {
 		finished = true
 		for i := 0; i < len(input); i++ {
