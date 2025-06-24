@@ -29,8 +29,10 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				input = append(input[:i], input[i+1:]...)
-				i--
+				if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
+					i--
+				}
 
 			case "(cap, n)":
 				c := fl.data
@@ -50,8 +52,10 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				input = append(input[:i], input[i+1:]...)
-				i--
+				if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
+					i--
+				}
 			case "(up, n)":
 				c := fl.data
 				numStr := strings.TrimLeft(c, "0")
@@ -70,8 +74,11 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				input = append(input[:i], input[i+1:]...)
-				i--
+
+				if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
+					i--
+				}
 
 			case "(hex)":
 				if i > 0 {
@@ -85,8 +92,10 @@ func HandlingFlags(input []string) []string {
 							break
 						}
 					}
-					input = append(input[:i], input[i+1:]...)
+					if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
 					i--
+				}
 				}
 			case "(bin)":
 				if i > 0 {
@@ -100,42 +109,50 @@ func HandlingFlags(input []string) []string {
 							break
 						}
 					}
-					input = append(input[:i], input[i+1:]...)
+					if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
 					i--
+				}
 				}
 			case "(up)":
 				if i > 0 {
-					for j := i-1 ; j>= 0; j--{
+					for j := i - 1; j >= 0; j-- {
 						if strings.TrimSpace(input[j]) != "" {
 							ToUpper(&input[j])
 							break
 						}
 					}
 				}
-				input = append(input[:i], input[i+1:]...)
-				i--
+				if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
+					i--
+				}
 			case "(cap)":
 				if i > 0 {
-					for j := i-1 ; j>= 0; j--{
+					for j := i - 1; j >= 0; j-- {
 						if strings.TrimSpace(input[j]) != "" {
 							Capitalize(&input[j])
 							break
 						}
 					}
 				}
-				input = append(input[:i], input[i+1:]...)
-				i--
+				if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
+					i--
+				}
 			case "(low)":
 				if i > 0 {
-					for j := i-1 ; j>= 0; j--{
+					for j := i - 1; j >= 0; j-- {
 						if strings.TrimSpace(input[j]) != "" {
 							ToLower(&input[j])
 							break
 						}
 					}
 				}
-				input = append(input[:i], input[i+1:]...)
-				i--
+				if i < len(input) -1{
+					input = append(input[:i], input[i+2:]...)
+					i--
+				}
 			}
 		}
 	}
@@ -163,6 +180,7 @@ func ToUpper(s *string) string {
 	*s = string(r)
 	return *s
 }
+
 func Capitalize(s *string) string {
 	r := []rune(*s)
 	for i, v := range r {

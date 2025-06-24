@@ -89,6 +89,22 @@ func CleanLine(input string) []string {
 		}
 	}
 
+	// add new spaces with flags if needed
+	for i := 0; i < len(out); i++ {
+		isf := isflag[out[i]]
+		if isf.IsFlag {
+			if i > 0 && out[i-1][len(out[i-1])-1] != ' ' {
+				out = append(out[:i], append([]string{" "}, out[i:]...)...)
+				i++
+			}
+			if i+1 < len(out) && out[i+1][0] != ' ' {
+				out = append(out[:i+1], append([]string{" "}, out[i+1:]...)...)
+			}
+		}
+
+	}
+	out = append(out, " ") // should remove this space after
+
 	// clean strings
 	output := []string{}
 	temp := ""

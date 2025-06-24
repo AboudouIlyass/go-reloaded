@@ -1,15 +1,14 @@
 package helpers
 
-import "strings"
-
 func AtoAn(s string) string {
-	a := strings.Split(s, " ")
+	a := []rune(s)
 	for i := 1; i < len(a); i++ {
-		if (a[i-1] == "a" || a[i-1] == "A") || (strings.HasPrefix(a[i-1],"A")) && IsVowelOrH(rune(a[i][0])) {
-			a[i-1] += "n"
+		if (a[i] == 'a' || a[i] == 'A') && a[i-1] == ' ' && a[i+1] == ' ' && IsVowelOrH(a[i+2]) {
+			a = append(a[:i], a[i+1:]...)
+			a = append(a[:i], append([]rune{'a', 'n'}, a[i:]...)...)
 		}
 	}
-	return strings.Join(a, " ")
+	return string(a)
 }
 
 func IsVowelOrH(r rune) bool {
