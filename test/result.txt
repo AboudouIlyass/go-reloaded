@@ -1,18 +1,28 @@
-a IT'S 'A Hnoramal sdfd f'df h r'h hh''gjh'
-'' '' '' '' '' '' '' '
-
-30 files were added
-It has been 2 years
-Ready, set, GO!
-I should stop shouting
-Welcome to the Brooklyn Bridge
-This is SO EXCITING
-I was sitting over there, and then BAMM!!
-I was thinking... You were right
-I am exactly how they describe me: 'awesome'
-As Elton J 'ohn said:' I am the most well-known homosexual in the world '
-There it was. An amazing rock!
-'a apple'
+a it's 'An Hnoramal sdfd f'df h r' h hh ''  gjh  '
+'' '' '' '' '' '' '' ' 
+'an apple'
 'a' apple 
- fhwuhv '
+ fhwuhv '' '' v '
+c(cap, 4)
+a 'apple  --> return: a' apple 
+A 'apple' --> return: An 'apple'
+'an apple' --> return: 'an apple'
+gdf 'an apple' --> return: gdf 'an apple'
+ an apple '--> return: a' apple 
+'g?' vhgh '2fs' @gjjh/ 'fs1' l/ '
 
+
+in:  "a ' apple"
+out: "a 'apple' "
+
+in:  "A        '   apple' " 
+out: "An 'apple' "
+
+in:  " 'an apple' "
+out: " 'an apple' "
+
+in:  "gdf 'an apple' "
+out: "gdf 'an apple' "
+
+in:  " a     apple ' "
+out: " an    apple ' "

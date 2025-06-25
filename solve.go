@@ -23,10 +23,10 @@ func Solve(input string) string {
 		h = helpers.Punctuations2(h)
 
 		// quotes
-		h = helpers.Quotes(h)
+		h = helpers.Quots(h)
 
 		// a to an
-		h = helpers.AtoAn(h)
+		//h = helpers.AtoAn(h)
 		
 		if len(h) > 0 {
 			h = h[:len(h)-1]
