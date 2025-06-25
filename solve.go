@@ -1,7 +1,6 @@
 package goreloaded
 
 import (
-	"fmt"
 	"strings"
 
 	"goreloaded/helpers"
@@ -14,7 +13,6 @@ func Solve(input string) string {
 
 		// clean line
 		l := helpers.CleanLine(line)
-		fmt.Println(l)
 
 		// handling flags :
 		l = helpers.HandlingFlags(l)
@@ -23,17 +21,20 @@ func Solve(input string) string {
 		h := strings.Join(l, "")
 		h = helpers.Punctuations1(h)
 		h = helpers.Punctuations2(h)
-		
+
 		// quotes
 		h = helpers.Quotes(h)
-		h = helpers.AtoAn(h)
-		output = append(output, h)
 
+		// a to an
+		h = helpers.AtoAn(h)
+		
+		if len(h) > 0 {
+			h = h[:len(h)-1]
+		}
+
+		output = append(output, h)
 	}
 	ret := strings.Join(output, "\n")
 
-	if len(ret) > 0{
-		ret = ret[:len(ret)-1]
-	}
 	return ret
 }

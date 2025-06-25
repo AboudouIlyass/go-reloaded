@@ -21,7 +21,7 @@ func Punctuations2(s string) string {
 
 	for i := 0; i < len(input); i++ {
 		if IsPunc(input[i]) {
-			if i+1 < len(input) && input[i+1] != ' ' {
+			if i+1 < len(input) && input[i+1] != ' ' && !IsPunc(input[i+1]) {
 				input = append(input[:i+1], append([]rune{' '}, input[i+1:]...)...)
 			}
 		}
