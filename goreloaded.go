@@ -8,7 +8,7 @@ import (
 
 func Goreloaded() {
 	args := os.Args[1:]
-	if len(args) != 2 { // check input
+	if len(args) != 2 {
 		fmt.Println("invalid number of argsgumets!")
 		return
 	}
@@ -19,7 +19,7 @@ func Goreloaded() {
 
 	Infile := args[0]
 	Outfile := args[1]
-	data, err := os.ReadFile(Infile) // read file content
+	data, err := os.ReadFile(Infile)
 	if err != nil {
 		fmt.Println("failed reading file content!")
 		return
@@ -29,16 +29,16 @@ func Goreloaded() {
 		return
 	}
 
-	newfile, err := os.Create(Outfile) // create new file
+	newfile, err := os.Create(Outfile)
 	if err != nil {
 		fmt.Println("Failed creating File!")
 		return
 	}
 	defer newfile.Close()
 
-	cleanData := Solve(string(data)) // process the data
+	cleanData := Solve(string(data))
 
-	_, err = newfile.WriteString(cleanData) // write into newfile
+	_, err = newfile.WriteString(cleanData)
 	if err != nil {
 		fmt.Println("Can't write into the output file!")
 	}

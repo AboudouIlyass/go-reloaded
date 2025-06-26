@@ -9,25 +9,26 @@ import (
 func Solve(input string) string {
 	output := []string{}
 	lines := strings.Split(input, "\n")
-	for _, line := range lines {
 
+	for _, line := range lines {
 		// clean line
 		l := helpers.CleanLine(line)
-
 		// handling flags :
 		l = helpers.HandlingFlags(l)
-
 		// punctuations
 		h := strings.Join(l, "")
 		h = helpers.Punctuations1(h)
 		h = helpers.Punctuations2(h)
-
 		// quotes
-		h = helpers.Quots(h)
-
+		quots := func(s string) string {
+			s = helpers.Quotss1(s)
+			s = helpers.Quotss2(s)
+			return s
+		}
+		h = quots(h)
 		// a to an
-		//h = helpers.AtoAn(h)
-		
+		h = helpers.AtoAn(h)
+
 		if len(h) > 0 {
 			h = h[:len(h)-1]
 		}

@@ -1,82 +1,8 @@
 package helpers
 
 import (
-	"fmt"
 	"unicode"
 )
-
-func Quotes(s string) string {
-	// s = AddSpaceIfNeeded(s)
-	input := []rune(s)
-
-	finished := false
-	for !finished {
-		open := 0
-		finished = true
-		for i := 0; i < len(input); i++ {
-			if i-1 >= 0 && unicode.IsLetter(input[i-1]) && i+1 < len(input) && input[i] == '\'' && unicode.IsLetter(input[i+1]) {
-				continue
-			}
-			if input[i] == '\'' {
-				switch open {
-				case 0: // remove space after opening quots
-					if i+1 < len(input)-1 && input[i+1] == ' ' {
-						input = append(input[:i+1], input[i+2:]...)
-						finished = false
-					}
-					open = 1
-				case 1: // remove space before closing quots
-					if i-1 >= 0 && input[i-1] == ' ' {
-						input = append(input[:i-1], input[i:]...)
-						finished = false
-						i--
-					}
-					open = 0
-				}
-			}
-		}
-		if finished {
-			break
-		}
-	}
-
-	return string(input)
-}
-
-func AddSpaceIfNeeded(s string) string {
-	input := []rune(s)
-	open := 0
-	for i := 0; i < len(input); i++ {
-
-		if i-1 >= 0 && unicode.IsLetter(input[i-1]) && i+1 < len(input) && input[i] == '\'' && unicode.IsLetter(input[i+1]) {
-			continue
-		}
-		if input[i] == '\'' {
-			switch open {
-			case 0: // add space before opening quots
-				if i-1 >= 0 && input[i-1] != ' ' {
-					input = append(input[:i], append([]rune{' '}, input[i:]...)...)
-				}
-				open = 1
-			case 1: // add space after closing quots
-				if i+1 < len(input)-1 && input[i+1] != ' ' {
-					input = append(input[:i+1], append([]rune{' '}, input[i+1:]...)...)
-				}
-				open = 0
-			}
-		}
-	}
-	return string(input)
-}
-
-func Quots(s string) string {
-	a := Quotss1(s)
-	// should do a to an here
-	a = Quotss2(a)
-	a = AtoAn(a)
-	fmt.Println(a)
-	return a
-}
 
 func Quotss1(s string) string {
 	input := []rune(s)
@@ -93,6 +19,24 @@ func Quotss1(s string) string {
 		}
 
 		if ch == '\'' {
+			// Check if there's a matching non-contraction quote ahead
+			paired := false
+			for j := i + 1; j < len(input); j++ {
+				if input[j] == '\'' {
+					// skip if that one is part of a contraction
+					if !(j > 0 && j+1 < len(input) && unicode.IsLetter(input[j-1]) && unicode.IsLetter(input[j+1])) {
+						paired = true
+						break
+					}
+				}
+			}
+
+			if !paired {
+				// no closing quote: append as is
+				output = append(output, ch)
+				continue
+			}
+
 			// space before '
 			if len(output) > 0 && output[len(output)-1] != ' ' {
 				output = append(output, ' ')
@@ -111,7 +55,7 @@ func Quotss1(s string) string {
 }
 
 func Quotss2(s string) string {
-		input := []rune(s)
+	input := []rune(s)
 	quotePos := []int{}
 
 	// collect positions of real (non-contraction) single quotes

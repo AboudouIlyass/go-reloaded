@@ -29,11 +29,10 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				if i < len(input) -1{
+				if i < len(input)-1 {
 					input = append(input[:i], input[i+2:]...)
 					i--
 				}
-
 			case "(cap, n)":
 				c := fl.data
 				numStr := strings.TrimLeft(c, "0")
@@ -52,7 +51,7 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				if i < len(input) -1{
+				if i < len(input)-1 {
 					input = append(input[:i], input[i+2:]...)
 					i--
 				}
@@ -75,7 +74,7 @@ func HandlingFlags(input []string) []string {
 					}
 				}
 
-				if i < len(input) -1{
+				if i < len(input)-1 {
 					input = append(input[:i], input[i+2:]...)
 					i--
 				}
@@ -92,10 +91,10 @@ func HandlingFlags(input []string) []string {
 							break
 						}
 					}
-					if i < len(input) -1{
-					input = append(input[:i], input[i+2:]...)
-					i--
-				}
+					if i < len(input)-1 {
+						input = append(input[:i], input[i+2:]...)
+						i--
+					}
 				}
 			case "(bin)":
 				if i > 0 {
@@ -109,10 +108,10 @@ func HandlingFlags(input []string) []string {
 							break
 						}
 					}
-					if i < len(input) -1{
-					input = append(input[:i], input[i+2:]...)
-					i--
-				}
+					if i < len(input)-1 {
+						input = append(input[:i], input[i+2:]...)
+						i--
+					}
 				}
 			case "(up)":
 				if i > 0 {
@@ -123,7 +122,7 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				if i < len(input) -1{
+				if i < len(input)-1 {
 					input = append(input[:i], input[i+2:]...)
 					i--
 				}
@@ -136,7 +135,7 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				if i < len(input) -1{
+				if i < len(input)-1 {
 					input = append(input[:i], input[i+2:]...)
 					i--
 				}
@@ -149,7 +148,7 @@ func HandlingFlags(input []string) []string {
 						}
 					}
 				}
-				if i < len(input) -1{
+				if i < len(input)-1 {
 					input = append(input[:i], input[i+2:]...)
 					i--
 				}

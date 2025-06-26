@@ -103,9 +103,9 @@ func CleanLine(input string) []string {
 		}
 
 	}
-	out = append(out, " ") // should remove this space after
+	out = append(out, " ")
 
-	// clean strings
+	// build a clean slice
 	output := []string{}
 	temp := ""
 
