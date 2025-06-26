@@ -5,142 +5,96 @@ import (
 	"strings"
 )
 
-func HandlingFlags(input []string) []string {
-	for i := 0; i < len(input); i++ {
-		fl := isflag[input[i]]
-		if fl.IsFlag {
-			switch fl.f {
-			case "(low, n)":
-				c := fl.data
-				numStr := strings.TrimLeft(c, "0")
-				if numStr > "9223372036854775807" {
-					numStr = "9223372036854775807"
-				}
-				num, _ := strconv.Atoi(numStr)
-				if i-1 >= 0 {
-					for j := i - 1; j >= 0 && num > 0; j = j - 1 {
-						if input[j][0] != ' ' {
-							input[j] = strings.ToLower(input[j])
-							num--
-						}
-					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
-					i--
-				}
-			case "(cap, n)":
-				c := fl.data
-				numStr := strings.TrimLeft(c, "0")
-				if numStr > "9223372036854775807" {
-					numStr = "9223372036854775807"
-				}
-				num, _ := strconv.Atoi(numStr)
-				if i-1 >= 0 {
-					for j := i - 1; j >= 0 && num > 0; j = j - 1 {
-						if input[j][0] != ' ' {
-							input[j] = Capitalize(input[j])
-							num--
-						}
-					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
-					i--
-				}
-			case "(up, n)":
-				c := fl.data
-				numStr := strings.TrimLeft(c, "0")
-				if numStr > "9223372036854775807" {
-					numStr = "9223372036854775807"
-				}
-				num, _ := strconv.Atoi(numStr)
-				if i-1 >= 0 {
-					for j := i - 1; j >= 0 && num > 0; j = j - 1 {
-						if input[j][0] != ' ' {
-							input[j] = strings.ToUpper(input[j])
-							num--
-						}
-					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
-					i--
-				}
+func Clear(s string) string {
+	input := strings.Split(s, " ")
 
-			case "(hex)":
-				if i >= 0 {
-					for j := i - 1; j >= 0; j-- {
-						if input[j][0] != ' ' {
-							num, err := strconv.ParseInt(input[j], 16, 64)
-							if err == nil {
-								input[j] = strconv.Itoa(int(num))
+	for i := 0; i < len(input); i++ {
+		if len(input[i]) > 1 && input[i][0] == '(' && input[i][len(input[i])-1] == ',' {
+			flag := input[i][1 : len(input[i])-1]
+			if (flag == "up" || flag == "low" || flag == "cap") && i+1 < len(input) {
+
+				if len(input[i+1]) > 1 {
+					if input[i+1][len(input[i+1])-1] == ')' {
+						numStr := input[i+1][:len(input[i+1])-1]
+						if n, err := strconv.Atoi(numStr); err == nil {
+
+							for j := i - 1; j >= 0 && n > 0; j-- {
+								if input[j] != "" {
+									switch flag {
+									case "up":
+										input[j] = strings.ToUpper(input[j])
+									case "low":
+										input[j] = strings.ToLower(input[j])
+									case "cap":
+										input[j] = Capitalize(input[j])
+									}
+									n--
+								}
 							}
-							break
+							input = DeleteFromSlice(input, i+1)
+							input = DeleteFromSlice(input, i)
+							i--
+							continue
 						}
 					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
-					i--
-				}
-			case "(bin)":
-				if i >= 0 {
-					for j := i - 1; j >= 0; j-- {
-						if input[j][0] != ' ' {
-							num, err := strconv.ParseInt(input[j], 2, 64)
-							if err == nil {
-								input[j] = strconv.Itoa(int(num))
-							}
-							break
-						}
-					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
-					i--
-				}
-			case "(up)":
-				if i >= 0 {
-					for j := i - 1; j >= 0; j-- {
-						if input[j][0] != ' ' {
-							input[j] = strings.ToUpper(input[j])
-							break
-						}
-					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+1:]...)
-					i--
-				}
-			case "(cap)":
-				if i >= 0 {
-					for j := i - 1; j >= 0; j-- {
-						if input[j][0] != ' ' {
-							input[j] = Capitalize(input[j])
-							break
-						}
-					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+1:]...)
-					i--
-				}
-			case "(low)":
-				if i >= 0 {
-					for j := i - 1; j >= 0; j-- {
-						if input[j][0] != ' ' {
-							input[j] = strings.ToLower(input[j])
-							break
-						}
-					}
-				}
-				if i < len(input)-1 {
-					input = append(input[:i], input[i+1:]...)
-					i--
 				}
 			}
 		}
+
+		switch input[i] {
+		case "(up)":
+			for j := i - 1; j >= 0; j-- {
+				if input[j] != "" {
+					input[j] = strings.ToUpper(input[j])
+					break
+				}
+			}
+			input = DeleteFromSlice(input, i)
+			i--
+		case "(low)":
+			for j := i - 1; j >= 0; j-- {
+				if input[j] != "" {
+					input[j] = strings.ToLower(input[j])
+					break
+				}
+			}
+			input = DeleteFromSlice(input, i)
+			i--
+		case "(cap)":
+			for j := i - 1; j >= 0; j-- {
+				if input[j] != "" {
+					input[j] = Capitalize(input[j])
+					break
+				}
+			}
+			input = DeleteFromSlice(input, i)
+			i--
+		case "(bin)":
+			for j := i - 1; j >= 0; j-- {
+				if input[j] != "" {
+					num, err := strconv.ParseInt(input[j], 2, 64)
+					if err == nil {
+						input[j] = strconv.Itoa(int(num))
+					}
+					break
+				}
+			}
+			input = DeleteFromSlice(input, i)
+			i--
+		case "(hex)":
+			for j := i - 1; j >= 0; j-- {
+				if input[j] != "" {
+					num, err := strconv.ParseInt(input[j], 16, 64)
+					if err == nil {
+						input[j] = strconv.Itoa(int(num))
+					}
+					break
+				}
+			}
+			input = DeleteFromSlice(input, i)
+			i--
+		}
 	}
-	return input
+	out := strings.Join(input, " ")
+	return out
 }
