@@ -5,54 +5,70 @@ import (
 )
 
 func Quotss1(s string) string {
-	input := []rune(s)
-	var output []rune
+    input := []rune(s)
+    // Step 1: collect positions of real quotes (excluding contraction apostrophes)
+    var quotePos []int
+    for i, ch := range input {
+        if ch == '\'' {
+            if i > 0 && i+1 < len(input) && unicode.IsLetter(input[i-1]) && unicode.IsLetter(input[i+1]) {
+                continue // skip apostrophes in contractions
+            }
+            quotePos = append(quotePos, i)
+        }
+    }
+    // Pair up and drop unmatched
+    if len(quotePos)%2 == 1 {
+        quotePos = quotePos[:len(quotePos)-1]
+    }
+    paired := make(map[int]bool)
+    for i := 0; i < len(quotePos); i += 2 {
+        paired[quotePos[i]] = true   // opening
+        paired[quotePos[i+1]] = true // closing
+    }
 
-	for i, ch := range input {
-		// Detect contraction quotes like don't, it's
-		if ch == '\'' &&
-			i > 0 && i+1 < len(input) &&
-			unicode.IsLetter(input[i-1]) &&
-			unicode.IsLetter(input[i+1]) {
-			output = append(output, ch)
-			continue
-		}
-
-		if ch == '\'' {
-			// Check if there's a matching non-contraction quote ahead
-			paired := false
-			for j := i + 1; j < len(input); j++ {
-				if input[j] == '\'' {
-					// skip if that one is part of a contraction
-					if !(j > 0 && j+1 < len(input) && unicode.IsLetter(input[j-1]) && unicode.IsLetter(input[j+1])) {
-						paired = true
-						break
-					}
-				}
-			}
-
-			if !paired {
-				// no closing quote: append as is
-				output = append(output, ch)
-				continue
-			}
-
-			// space before '
-			if len(output) > 0 && output[len(output)-1] != ' ' {
-				output = append(output, ' ')
-			}
-			// the quote itself
-			output = append(output, '\'')
-			// space after '
-			if i+1 < len(input) && input[i+1] != ' ' {
-				output = append(output, ' ')
-			}
-		} else {
-			output = append(output, ch)
-		}
-	}
-	return string(output)
+    // Step 2: build output, adding spaces only around paired quotes
+    var output []rune
+    for i, ch := range input {
+        if ch == '\'' && paired[i] {
+            // Check if this is opening (next paired is after) or closing
+            isOpening := false
+            // count how many paired before this
+            count := 0
+            for _, pos := range quotePos {
+                if pos < i {
+                    count++
+                }
+            }
+            if count%2 == 0 {
+                isOpening = true
+            }
+            // opening: space before and after
+            if isOpening {
+                if len(output) > 0 && output[len(output)-1] != ' ' {
+                    output = append(output, ' ')
+                }
+                output = append(output, '\'')
+                if i+1 < len(input) && input[i+1] != ' ' {
+                    output = append(output, ' ')
+                }
+            } else {
+                // closing: space before and after
+                if len(output) > 0 && output[len(output)-1] != ' ' {
+                    output = append(output, ' ')
+                }
+                output = append(output, '\'')
+                if i+1 < len(input) && input[i+1] != ' ' {
+                    output = append(output, ' ')
+                }
+            }
+        } else {
+            // default: copy character
+            output = append(output, ch)
+        }
+    }
+    return string(output)
 }
+
 
 func Quotss2(s string) string {
 	input := []rune(s)

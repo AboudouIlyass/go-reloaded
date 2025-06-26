@@ -20,12 +20,9 @@ func HandlingFlags(input []string) []string {
 				num, _ := strconv.Atoi(numStr)
 				if i-1 >= 0 {
 					for j := i - 1; j >= 0 && num > 0; j = j - 1 {
-						for _, k := range input[j] {
-							if k != ' ' {
-								input[j] = ToLower(&input[j])
-								num--
-								break
-							}
+						if input[j][0] != ' ' {
+							input[j] = strings.ToLower(input[j])
+							num--
 						}
 					}
 				}
@@ -42,12 +39,9 @@ func HandlingFlags(input []string) []string {
 				num, _ := strconv.Atoi(numStr)
 				if i-1 >= 0 {
 					for j := i - 1; j >= 0 && num > 0; j = j - 1 {
-						for _, k := range input[j] {
-							if k != ' ' {
-								input[j] = Capitalize(&input[j])
-								num--
-								break
-							}
+						if input[j][0] != ' ' {
+							input[j] = Capitalize(&input[j])
+							num--
 						}
 					}
 				}
@@ -64,26 +58,21 @@ func HandlingFlags(input []string) []string {
 				num, _ := strconv.Atoi(numStr)
 				if i-1 >= 0 {
 					for j := i - 1; j >= 0 && num > 0; j = j - 1 {
-						for _, k := range input[j] {
-							if k != ' ' {
-								input[j] = ToUpper(&input[j])
-								num--
-								break
-							}
+						if input[j][0] != ' ' {
+							input[j] = strings.ToUpper(input[j])
+							num--
 						}
 					}
 				}
-
 				if i < len(input)-1 {
 					input = append(input[:i], input[i+2:]...)
 					i--
 				}
 
 			case "(hex)":
-				if i > 0 {
-					j := i - 1
-					for ; j >= 0; j-- {
-						if strings.TrimSpace(input[j]) != "" {
+				if i >= 0 {
+					for j := i - 1; j >= 0; j-- {
+						if input[j][0] != ' ' {
 							num, err := strconv.ParseInt(input[j], 16, 64)
 							if err == nil {
 								input[j] = strconv.Itoa(int(num))
@@ -91,16 +80,15 @@ func HandlingFlags(input []string) []string {
 							break
 						}
 					}
-					if i < len(input)-1 {
-						input = append(input[:i], input[i+2:]...)
-						i--
-					}
+				}
+				if i < len(input)-1 {
+					input = append(input[:i], input[i+2:]...)
+					i--
 				}
 			case "(bin)":
-				if i > 0 {
-					j := i - 1
-					for ; j >= 0; j-- {
-						if strings.TrimSpace(input[j]) != "" {
+				if i >= 0 {
+					for j := i - 1; j >= 0; j-- {
+						if input[j][0] != ' ' {
 							num, err := strconv.ParseInt(input[j], 2, 64)
 							if err == nil {
 								input[j] = strconv.Itoa(int(num))
@@ -108,16 +96,16 @@ func HandlingFlags(input []string) []string {
 							break
 						}
 					}
-					if i < len(input)-1 {
-						input = append(input[:i], input[i+2:]...)
-						i--
-					}
+				}
+				if i < len(input)-1 {
+					input = append(input[:i], input[i+2:]...)
+					i--
 				}
 			case "(up)":
-				if i > 0 {
+				if i >= 0 {
 					for j := i - 1; j >= 0; j-- {
-						if strings.TrimSpace(input[j]) != "" {
-							ToUpper(&input[j])
+						if input[j][0] != ' ' {
+							input[j] = strings.ToUpper(input[j])
 							break
 						}
 					}
@@ -127,10 +115,10 @@ func HandlingFlags(input []string) []string {
 					i--
 				}
 			case "(cap)":
-				if i > 0 {
+				if i >= 0 {
 					for j := i - 1; j >= 0; j-- {
-						if strings.TrimSpace(input[j]) != "" {
-							Capitalize(&input[j])
+						if input[j][0] != ' ' {
+							input[j] = Capitalize(&input[j])
 							break
 						}
 					}
@@ -140,10 +128,10 @@ func HandlingFlags(input []string) []string {
 					i--
 				}
 			case "(low)":
-				if i > 0 {
+				if i >= 0 {
 					for j := i - 1; j >= 0; j-- {
-						if strings.TrimSpace(input[j]) != "" {
-							ToLower(&input[j])
+						if input[j][0] != ' ' {
+							input[j] = strings.ToLower(input[j])
 							break
 						}
 					}
@@ -156,28 +144,6 @@ func HandlingFlags(input []string) []string {
 		}
 	}
 	return input
-}
-
-func ToLower(s *string) string {
-	r := []rune(*s)
-	for i, v := range r {
-		if unicode.IsLetter(v) {
-			r[i] = unicode.ToLower(v)
-		}
-	}
-	*s = string(r)
-	return *s
-}
-
-func ToUpper(s *string) string {
-	r := []rune(*s)
-	for i, v := range r {
-		if unicode.IsLetter(v) {
-			r[i] = unicode.ToUpper(v)
-		}
-	}
-	*s = string(r)
-	return *s
 }
 
 func Capitalize(s *string) string {
