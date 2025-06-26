@@ -3,7 +3,6 @@ package helpers
 import (
 	"strconv"
 	"strings"
-	"unicode"
 )
 
 func HandlingFlags(input []string) []string {
@@ -40,7 +39,7 @@ func HandlingFlags(input []string) []string {
 				if i-1 >= 0 {
 					for j := i - 1; j >= 0 && num > 0; j = j - 1 {
 						if input[j][0] != ' ' {
-							input[j] = Capitalize(&input[j])
+							input[j] = Capitalize(input[j])
 							num--
 						}
 					}
@@ -118,7 +117,7 @@ func HandlingFlags(input []string) []string {
 				if i >= 0 {
 					for j := i - 1; j >= 0; j-- {
 						if input[j][0] != ' ' {
-							input[j] = Capitalize(&input[j])
+							input[j] = Capitalize(input[j])
 							break
 						}
 					}
@@ -144,16 +143,4 @@ func HandlingFlags(input []string) []string {
 		}
 	}
 	return input
-}
-
-func Capitalize(s *string) string {
-	r := []rune(*s)
-	for i, v := range r {
-		if unicode.IsLetter(v) {
-			r[i] = unicode.ToUpper(r[i])
-			break
-		}
-	}
-	*s = string(r)
-	return *s
 }

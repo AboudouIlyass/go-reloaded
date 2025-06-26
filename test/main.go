@@ -1,7 +1,9 @@
 package main
 
-import "goreloaded"
+import (
+	"goreloaded"
+)
 
-func main()  {
+func main() {
 	goreloaded.Goreloaded()
 }

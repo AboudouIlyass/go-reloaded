@@ -132,25 +132,3 @@ func CleanLine(input string) []string {
 	}
 	return output
 }
-
-func AreDigits(s string) bool {
-	if len(s) == 0 {
-		return false
-	}
-	if s[0] == '+' || s[0] == '-' {
-		s = s[1:]
-		if len(s) == 0 {
-			return false
-		}
-	}
-	for i := 0; i < len(s); i++ {
-		if s[i] < '0' || s[i] > '9' {
-			return false
-		}
-	}
-	return true
-}
-
-func IsPunc(s rune) bool {
-	return (s == '.' || s == ',' || s == '!' || s == '?' || s == ':' || s == ';')
-}

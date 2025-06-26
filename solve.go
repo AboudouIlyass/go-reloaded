@@ -17,12 +17,12 @@ func Solve(input string) string {
 		l = helpers.HandlingFlags(l)
 		// punctuations
 		h := strings.Join(l, "")
-		h = helpers.Punctuations1(h)
 		h = helpers.Punctuations2(h)
+		h = helpers.Punctuations1(h)
 		// quotes
 		quots := func(s string) string {
-			s = helpers.Quotss1(s)
-			s = helpers.Quotss2(s)
+			s = helpers.Quots1(s)
+			s = helpers.Quots2(s)
 			return s
 		}
 		h = quots(h)
@@ -32,10 +32,7 @@ func Solve(input string) string {
 		if len(h) > 0 {
 			h = h[:len(h)-1]
 		}
-
 		output = append(output, h)
 	}
-	ret := strings.Join(output, "\n")
-
-	return ret
+	return strings.Join(output, "\n")
 }
