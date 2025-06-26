@@ -41,6 +41,20 @@ func MyDelete(s []rune, pos int) []rune {
 	return append(s[:pos], s[pos+1:]...)
 }
 
+func DeleteFromSlice(s []string, pos int) []string {
+	if pos >= len(s) || pos < 0 {
+		return s
+	}
+	return append(s[:pos], s[pos+1:]...)
+}
+
+func AddToSlice(s []string, pos int, str string) []string {
+	if pos >= len(s) || pos < 0 {
+		return s
+	}
+	return append(s[:pos], append([]string{str}, s[pos:]...)...)
+}
+
 func MyAdd(s []rune, pos int, char rune) []rune {
 	if pos >= len(s) || pos < 0 {
 		return s

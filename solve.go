@@ -9,10 +9,9 @@ import (
 func Solve(input string) string {
 	output := []string{}
 	lines := strings.Split(input, "\n")
-
 	for _, line := range lines {
 		// clean line
-		l := helpers.CleanLine(line)
+		l := helpers.Clear(line)
 		// handling flags :
 		l = helpers.HandlingFlags(l)
 		// punctuations

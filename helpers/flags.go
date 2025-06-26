@@ -110,7 +110,7 @@ func HandlingFlags(input []string) []string {
 					}
 				}
 				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
+					input = append(input[:i], input[i+1:]...)
 					i--
 				}
 			case "(cap)":
@@ -123,7 +123,7 @@ func HandlingFlags(input []string) []string {
 					}
 				}
 				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
+					input = append(input[:i], input[i+1:]...)
 					i--
 				}
 			case "(low)":
@@ -136,7 +136,7 @@ func HandlingFlags(input []string) []string {
 					}
 				}
 				if i < len(input)-1 {
-					input = append(input[:i], input[i+2:]...)
+					input = append(input[:i], input[i+1:]...)
 					i--
 				}
 			}

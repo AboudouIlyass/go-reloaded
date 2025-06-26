@@ -12,7 +12,8 @@ func Goreloaded() {
 		fmt.Println("invalid number of argsgumets!")
 		return
 	}
-	if !strings.HasSuffix(args[1], ".txt") || !strings.HasSuffix(args[0], ".txt") {
+
+	if !strings.HasSuffix(args[1], ".txt") || !strings.HasSuffix(args[0], ".txt") || args[0] == args[1] {
 		fmt.Println("Invalid input or output file!")
 		return
 	}
@@ -24,6 +25,7 @@ func Goreloaded() {
 		fmt.Println("failed reading file content!")
 		return
 	}
+
 	if len(data) == 0 {
 		fmt.Println("Empty file!")
 		return
@@ -34,6 +36,7 @@ func Goreloaded() {
 		fmt.Println("Failed creating File!")
 		return
 	}
+	
 	defer newfile.Close()
 
 	cleanData := Solve(string(data))

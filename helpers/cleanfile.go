@@ -1,6 +1,7 @@
 package helpers
 
 import (
+	"strconv"
 	"strings"
 	"unicode/utf8"
 )
@@ -90,19 +91,19 @@ func CleanLine(input string) []string {
 	}
 
 	// add new spaces with flags if needed
-	for i := 0; i < len(out); i++ {
-		isf := isflag[out[i]]
-		if isf.IsFlag {
-			if i > 0 && out[i-1][len(out[i-1])-1] != ' ' {
-				out = append(out[:i], append([]string{" "}, out[i:]...)...)
-				i++
-			}
-			if i+1 < len(out) && out[i+1][0] != ' ' {
-				out = append(out[:i+1], append([]string{" "}, out[i+1:]...)...)
-			}
-		}
+	// for i := 0; i < len(out); i++ {
+	// 	isf := isflag[out[i]]
+	// 	if isf.IsFlag {
+	// 		if i > 0 && out[i-1][len(out[i-1])-1] != ' ' {
+	// 			out = append(out[:i], append([]string{" "}, out[i:]...)...)
+	// 			i++
+	// 		}
+	// 		if i+1 < len(out) && out[i+1][0] != ' ' {
+	// 			out = append(out[:i+1], append([]string{" "}, out[i+1:]...)...)
+	// 		}
+	// 	}
 
-	}
+	// }
 	out = append(out, " ")
 
 	// build a clean slice
@@ -131,4 +132,65 @@ func CleanLine(input string) []string {
 		output = append(output, temp)
 	}
 	return output
+}
+
+func Clear(s string) []string {
+	input := strings.Split(s, " ")
+
+	for i, ele := range input {
+		switch ele {
+		case "(up)":
+			if i-1 >= 0 {
+				input[i-1] = strings.ToUpper(ele)
+			}
+			input = DeleteFromSlice(input, i)
+		case "(low)":
+			if i-1 >= 0 {
+				input[i-1] = strings.ToLower(ele)
+			}
+			input = DeleteFromSlice(input, i)
+		case "(cap)":
+			if i-1 >= 0 {
+				input[i-1] = Capitalize(ele)
+			}
+			input = DeleteFromSlice(input, i)
+		case "(bin)":
+			if i-1 >= 0 {
+				num, err := strconv.ParseInt(input[i-1], 2, 64)
+				if err == nil {
+					input[i-1] = strconv.Itoa(int(num))
+				}
+			}
+			input = DeleteFromSlice(input, i)
+		case "(hex)":
+			if i-1 >= 0 {
+				num, err := strconv.ParseInt(input[i-1], 16, 64)
+				if err == nil {
+					input[i-1] = strconv.Itoa(int(num))
+				}
+			}
+			input = DeleteFromSlice(input, i)
+
+		default:
+
+			if i+1 < len(input) && len(ele) >= 4 && len(input[i+1]) >= 2 && strings.HasPrefix(ele, "(up,") && strings.HasSuffix(input[i+1], ")") {
+				nu := input[i+1][:len(input[i+1])-1]
+				if AreDigits(nu) {
+					if i-1 >= 0 {
+						input[i-1] = strings.ToUpper(input[i-1])
+					}
+				}
+				input = DeleteFromSlice(input, i)
+				input = DeleteFromSlice(input, i)
+			}
+
+			if len(ele) > 7 && strings.HasPrefix(ele, "(cap, ") && strings.HasSuffix(ele, ")") {
+			}
+
+			if len(ele) > 6 && strings.HasPrefix(ele, "(low, ") && strings.HasSuffix(ele, ")") {
+			}
+
+		}
+	}
+	return input
 }
