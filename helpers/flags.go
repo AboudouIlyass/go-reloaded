@@ -5,19 +5,16 @@ import (
 	"strings"
 )
 
-func Clear(s string) string {
+func Flags(s string) string {
 	input := strings.Split(s, " ")
-
 	for i := 0; i < len(input); i++ {
 		if len(input[i]) > 1 && input[i][0] == '(' && input[i][len(input[i])-1] == ',' {
 			flag := input[i][1 : len(input[i])-1]
 			if (flag == "up" || flag == "low" || flag == "cap") && i+1 < len(input) {
-
 				if len(input[i+1]) > 1 {
 					if input[i+1][len(input[i+1])-1] == ')' {
 						numStr := input[i+1][:len(input[i+1])-1]
 						if n, err := strconv.Atoi(numStr); err == nil {
-
 							for j := i - 1; j >= 0 && n > 0; j-- {
 								if input[j] != "" {
 									switch flag {
@@ -40,7 +37,6 @@ func Clear(s string) string {
 				}
 			}
 		}
-
 		switch input[i] {
 		case "(up)":
 			for j := i - 1; j >= 0; j-- {

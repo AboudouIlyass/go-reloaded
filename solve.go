@@ -1,8 +1,9 @@
 package goreloaded
 
 import (
-	"goreloaded/helpers"
 	"strings"
+
+	"goreloaded/helpers"
 )
 
 func Solve(input string) string {
@@ -10,19 +11,18 @@ func Solve(input string) string {
 	lines := strings.Split(input, "\n")
 	for _, line := range lines {
 		// handling flag
-		h := helpers.Clear(line)
+		h := helpers.Flags(line)
 		// punctuations
-		h = helpers.Punctuations2(h)
-		h = helpers.Punctuations1(h)
+		h = helpers.Punctuations(h)
 		// quotes
 		quots := func(s string) string {
 			s = helpers.Quots1(s)
 			s = helpers.Quots2(s)
 			return s
 		}
+		h = quots(h)
 		// a to an
 		h = helpers.AtoAn(h)
-		h = quots(h)
 		output = append(output, h)
 	}
 	return strings.Join(output, "\n")

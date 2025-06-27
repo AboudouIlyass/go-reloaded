@@ -13,8 +13,16 @@ func Goreloaded() {
 		return
 	}
 
-	if !strings.HasSuffix(args[1], ".txt") || !strings.HasSuffix(args[0], ".txt") || args[0] == args[1] {
-		fmt.Println("Invalid input or output file!")
+	if !strings.HasSuffix(args[0], ".txt") {
+		fmt.Println("input must have a .txt extension")
+		return
+	}
+	if !strings.HasSuffix(args[1], ".txt") {
+		fmt.Println("output must have a .txt extension")
+		return
+	}
+	if args[0] == args[1]{
+		fmt.Println("input and output files must different!")
 		return
 	}
 
@@ -36,7 +44,7 @@ func Goreloaded() {
 		fmt.Println("Failed creating File!")
 		return
 	}
-	
+
 	defer newfile.Close()
 
 	cleanData := Solve(string(data))
