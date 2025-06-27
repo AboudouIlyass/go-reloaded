@@ -4,7 +4,7 @@ import (
 	"strconv"
 	"strings"
 )
-
+// apply flags to the file line by line
 func Flags(s string) string {
 	input := strings.Split(s, " ")
 	for i := 0; i < len(input); i++ {

@@ -21,7 +21,7 @@ func Goreloaded() {
 		fmt.Println("output must have a .txt extension")
 		return
 	}
-	if args[0] == args[1]{
+	if args[0] == args[1] {
 		fmt.Println("input and output files must different!")
 		return
 	}
@@ -44,7 +44,6 @@ func Goreloaded() {
 		fmt.Println("Failed creating File!")
 		return
 	}
-
 	defer newfile.Close()
 
 	cleanData := Solve(string(data))

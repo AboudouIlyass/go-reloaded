@@ -4,7 +4,7 @@ import (
 	"unicode"
 )
 
-// add spaces if needed
+// add space to close the quots if needed
 func Quots1(s string) string {
 	input := []rune(s)
 	open := false
@@ -34,7 +34,7 @@ func Quots1(s string) string {
 	return string(input)
 }
 
-// remove extra spaces
+// remove extra spaces to close the quots if needed
 func Quots2(s string) string {
 	input := []rune(s)
 	pos := -1

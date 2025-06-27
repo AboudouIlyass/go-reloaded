@@ -1,9 +1,10 @@
 package helpers
 
+// add and remove spaces before and after punctuation if needed
 func Punctuations(s string) string {
-	// add spaces after punctuations id needed
 	input := []rune(s)
 	for i := 0; i < len(input); i++ {
+		// add
 		if IsPunc(input[i]) {
 			if i+1 < len(input) && input[i+1] != ' ' && !IsPunc(input[i+1]) {
 				input = MyAdd(input, i+1, ' ')
@@ -11,8 +12,8 @@ func Punctuations(s string) string {
 		}
 	}
 
-	// remove spaces before puntuations if needed
 	for i := 1; i < len(input); i++ {
+		// remove
 		if IsPunc(input[i]) {
 			for i > 0 && input[i-1] == ' ' {
 				input = MyDelete(input, i-1)
