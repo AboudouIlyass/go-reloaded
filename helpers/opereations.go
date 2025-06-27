@@ -4,10 +4,13 @@ import "unicode"
 
 func Capitalize(s string) string {
 	r := []rune(s)
+	found := false
 	for i, v := range s {
-		if unicode.IsLetter(v) {
+		if unicode.IsLetter(v) && !found {
 			r[i] = unicode.ToUpper(r[i])
-			break
+			found = true
+		} else {
+			r[i] = unicode.ToLower(r[i])
 		}
 	}
 	return string(r)

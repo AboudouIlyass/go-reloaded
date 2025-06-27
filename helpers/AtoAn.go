@@ -12,6 +12,8 @@ func AtoAn(s string) string {
 						a = append(a[:i], a[i+1:]...)
 						a = append(a[:i], append([]rune{t, 'n'}, a[i:]...)...)
 						break
+					}else if a[j] != ' ' {
+						break
 					}
 				}
 			}

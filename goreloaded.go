@@ -9,7 +9,7 @@ import (
 func Goreloaded() {
 	args := os.Args[1:]
 	if len(args) != 2 {
-		fmt.Println("invalid number of argsgumets!")
+		fmt.Println("invalid number of arguments!")
 		return
 	}
 
